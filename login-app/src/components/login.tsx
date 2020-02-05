@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Box, Flex } from './system';
+import { Box, Flex } from '../system';
 import loginImage from './images/login-bg.jpg';
 import styled from '@emotion/styled';
+import { Redirect } from 'react-router-dom';
 
 const Root = styled(Flex)`
   background: url(${loginImage}) no-repeat center/cover;
@@ -27,6 +28,7 @@ const Root = styled(Flex)`
       border: 0;
       outline: none;
       color: #504943;
+      cursor: pointer;
     }
   }
 `;
@@ -39,7 +41,7 @@ export default function Login() {
 
   function formHandle(e: any) {
     e.preventDefault();
-    if (userName === 'appiness' && password === 'appiness') {
+    if (userName === 'hruday@gmail.com' && password === 'hruday123') {
       setRedirect(true);
     } else {
       setError('Cannot find Username and Password');
@@ -50,51 +52,42 @@ export default function Login() {
     setPassword('');
     setUserName('');
   }
+
+  if (redirect) {
+    return <Redirect to="/dashboard"></Redirect>;
+  }
+
   return (
     <Root widhth="100%" height="100vh" alignItems="center" justifyContent="center">
       <Box width="300px" borderRadius="5px" overflow="hidden">
-        {redirect && (
-          <Box bg="#504943" color="#ffffff" textAlign="center" fontSize={2}>
-            Successfull Login
-          </Box>
-        )}
-        {!redirect && (
-          <>
-            <Box
-              bg="#504943"
-              color="#ffffff"
-              textAlign="center"
-              fontSize={2}
-              p="15px 10px"
-            >
-              Log In
+        <Box bg="#504943" color="#ffffff" textAlign="center" fontSize={2} p="15px 10px">
+          Log In
+        </Box>
+        <Box bg="#ffffff" p="15px 10px">
+          <form onSubmit={formHandle}>
+            <input
+              type="text"
+              placeholder="User Name"
+              required
+              value={userName}
+              onChange={(e) => setUserName(e.target.value)}
+            />
+            <input
+              type="password"
+              placeholder="password"
+              required
+              value={password}
+              autoComplete="off"
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <button type="submit">Login</button>
+          </form>
+          {error && (
+            <Box mt="2" fontSize="1" color="red">
+              {error}
             </Box>
-            <Box bg="#ffffff" p="15px 10px">
-              <form onSubmit={formHandle}>
-                <input
-                  type="text"
-                  placeholder="User Name"
-                  required
-                  value={userName}
-                  onChange={(e) => setUserName(e.target.value)}
-                />
-                <input
-                  type="password"
-                  placeholder="password"
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-                <button type="submit">Login</button>
-              </form>
-              {error && (
-                <Box mt="2" fontSize="1" color="red">
-                  {error}
-                </Box>
-              )}
-            </Box>
-          </>
-        )}
+          )}
+        </Box>
       </Box>
     </Root>
   );
