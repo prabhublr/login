@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Flex } from '../system';
+import { Flex } from '../system';
 import styled from '@emotion/styled';
 import loginImage from './images/login-bg.jpg';
 import { dashboardData } from './data';
